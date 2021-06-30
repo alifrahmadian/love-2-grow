@@ -51,7 +51,7 @@ class LoginController extends Controller
     public function login(Request $request){
         if(Auth::attempt($request->only('email','password'))){
             
-            return redirect('/');
+            return redirect('/member');
         }    
         return redirect('/login');
         

@@ -100,6 +100,70 @@ class RegisterController extends Controller
             return view('auth.login');
         }
 
+        public function show(){
+            $users = User::all();
+            return $users;
+
+            return view('dashboard.dashboardPages.member_data');
+        }
+
+        // public function showCertainUser($user_id){
+        //     $user = User::find($user_id);
+
+        //     return $user;
+
+        //     return view('dashboard.dashboardPages.memberData.edit_member');
+        // }
+
+        public function destroy($user_id){
+            $user = User::find($user_id);
+            $user->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => "Data member berhasil dihapus"
+            ]);
+        }
+
+        public function edit($user_id){
+            $user = User::find($user_id);
+
+            return $user;
+            return view('dashboard.dashboardPages.memberData.edit_member');
+        }
+
+        public function update(Request $request, $user_id) {
+        //    $request->validate([
+        //         'name' => ['string', 'max:255'],
+        //         'email' => ['string', 'email', 'max:255', 'unique:users'],
+        //         'password' => ['string', 'min:8'],
+        //         'phone_number' => ['string'],
+        //         'address' => ['string']
+        //     ]);
+
+            try {
+                 $user = User::where('user_id', $user_id)->update([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    // 'password' => $request->input('password'),
+                    'phone_number' => $request->input('phone_number'),
+                    'address' => $request->input('address')
+                ]);
+
+                $response['message']= "Data berhasil diperbarui!";
+                $response['success']= true;
+
+            } catch (\Exception $e) {
+                $response['message']= $e->getMessage();
+                $response['success']= false;
+            }
+
+          
+
+            return $response;
+            
+
+        }
+
         
 
 
